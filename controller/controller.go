@@ -1,10 +1,10 @@
 package controller
 
 import (
+	"projectcharter/config"
 	"projectcharter/models/domain"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-delve/delve/pkg/config"
 )
 
 func PostsCreate(c *gin.Context) {
@@ -22,7 +22,7 @@ func PostsCreate(c *gin.Context) {
 	// Create a post
 	projectcharter := domain.ProjectCharter{Name: body.Name, Description: body.Description, CreatedBy: body.CreatedBy, UpdatedBy: body.UpdatedBy, DeletedBy: body.DeletedBy}
 
-	result := config.DB.Create(&projectcharter)
+	result := config.NewDB().Create(&projectcharter)
 
 	if result.Error != nil {
 		c.Status(400)
@@ -41,7 +41,7 @@ func PostsShow(c *gin.Context) {
 
 	// Get the posts
 	var post domain.ProjectCharter
-	config.DB.First(&post, id)
+	config.NewDB().First(&post, id)
 
 	// Respond with them
 	c.JSON(200, gin.H{

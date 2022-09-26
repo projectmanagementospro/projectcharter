@@ -1,15 +1,14 @@
 package main
 
 import (
+	"projectcharter/config"
 	"projectcharter/controller"
-	"projectcharter/initializer"
 
 	"github.com/gin-gonic/gin"
 )
 
 func init() {
-	initializer.LoadEnvVariables()
-	initializer.ConnectToDB()
+	config.NewDB()
 }
 
 func main() {
