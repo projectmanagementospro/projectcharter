@@ -1,6 +1,7 @@
 package repository
 
 import (
+	"errors"
 	"projectcharter/models/domain"
 
 	"gorm.io/gorm"
@@ -31,4 +32,22 @@ func (c *ProjectCharterConnection) All() []domain.ProjectCharter {
 func (c *ProjectCharterConnection) Create(p domain.ProjectCharter) domain.ProjectCharter {
 	c.connection.Save(&p)
 	return p
+}
+
+func (c *ProjectCharterConnection) Update(p domain.ProjectCharter) domain.ProjectCharter {
+	c.connection.Save(&p)
+	return p
+}
+
+func (c *ProjectCharterConnection) Delete(p domain.ProjectCharter) {
+	c.connection.Save(&p)
+}
+
+func (c *ProjectCharterConnection) FindById(id uint64) (domain.ProjectCharter, error) {
+	var projectcharter domain.ProjectCharter
+	c.connection.Find(&projectcharter, "id = ?", id)
+	if projectcharter.ID == 0 {
+		return projectcharter, errors.New("id not found")
+	}
+	return projectcharter, nil
 }
