@@ -15,9 +15,13 @@ func main() {
 
 	r := gin.Default()
 
-	r.POST("/posts", controller.PostsCreate)
+	r.POST("/pcharter", controller.ProjCharterCreate)
+	r.POST("/pcharter/:id", controller.ProjCharterUpdate)
 
-	r.GET("/posts/:id", controller.PostsShow)
+	r.GET("/pcharter/:id", controller.ProjCharterShow)
+	r.GET("/pcharter", controller.ProjCharterIndex)
+
+	r.DELETE("/pcharter/:id", controller.ProjCharterDelete)
 
 	r.Run("0.0.0.0:3000")
 	//r.Run()
