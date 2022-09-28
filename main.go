@@ -2,40 +2,27 @@ package main
 
 import (
 	"projectcharter/config"
-	"projectcharter/controller"
 	"projectcharter/helper"
-	"projectcharter/repository"
-	"projectcharter/service"
+	"projectcharter/injector"
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"gorm.io/gorm"
 )
 
-// func init() {
-// 	config.NewDB()
-// }
-
 var (
 	db *gorm.DB = config.NewDB()
 )
 
 func main() {
-	// r := gin.Default()
-	// r.POST("/pcharter", controller.ProjCharterCreate)
-	// r.POST("/pcharter/:id", controller.ProjCharterUpdate)
-	// r.GET("/pcharter/:id", controller.ProjCharterShow)
-	// r.GET("/pcharter", controller.ProjCharterIndex)
-	// r.DELETE("/pcharter/:id", controller.ProjCharterDelete)
-	// r.Run("0.0.0.0:3000")
-	//r.Run()
-
 	err := godotenv.Load()
 	helper.PanicIfError(err)
 
-	pcharterRepository := repository.NewProjectCharterRepository(db)
-	pcharterService := service.NewProjectCharterService(pcharterRepository)
-	pcharterController := controller.NewProjectCharterController(pcharterService)
+	// pcharterRepository := repository.NewProjectCharterRepository(db)
+	// pcharterService := service.NewProjectCharterService(pcharterRepository)
+	// pcharterController := controller.NewProjectCharterController(pcharterService)
+
+	pcharterController := injector.InitProjectCharter(db)
 
 	r := gin.Default()
 	pcharter := r.Group("/pcharter")
