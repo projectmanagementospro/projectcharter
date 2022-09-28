@@ -11,9 +11,9 @@ import (
 type ProjectCharterService interface {
 	All() []domain.ProjectCharter
 	Create(b web.ProjectCharterRequest) (domain.ProjectCharter, error)
-	FindById(id uint64) (domain.ProjectCharter, error)
-	Update(b web.ProjectCharterRequest) (domain.ProjectCharter, error)
-	Delete(id uint64) error
+	FindById(id uint) (domain.ProjectCharter, error)
+	Update(b web.ProjectCharterUpdateRequest) (domain.ProjectCharter, error)
+	Delete(id uint) error
 }
 
 type projectcharterService struct {
@@ -43,7 +43,7 @@ func (s *projectcharterService) Create(request web.ProjectCharterRequest) (domai
 	return s.projectcharterRepository.Create(projectcharter), nil
 }
 
-func (s *projectcharterService) Update(b web.ProjectCharterRequest) (domain.ProjectCharter, error) {
+func (s *projectcharterService) Update(b web.ProjectCharterUpdateRequest) (domain.ProjectCharter, error) {
 	projectcharter := domain.ProjectCharter{}
 	res, err := s.projectcharterRepository.FindById(b.ID)
 	if err != nil {
@@ -58,7 +58,7 @@ func (s *projectcharterService) Update(b web.ProjectCharterRequest) (domain.Proj
 	return s.projectcharterRepository.Update(projectcharter), nil
 }
 
-func (s *projectcharterService) FindById(id uint64) (domain.ProjectCharter, error) {
+func (s *projectcharterService) FindById(id uint) (domain.ProjectCharter, error) {
 	projectcharter, err := s.projectcharterRepository.FindById(id)
 	if err != nil {
 		return projectcharter, err
@@ -66,7 +66,7 @@ func (s *projectcharterService) FindById(id uint64) (domain.ProjectCharter, erro
 	return projectcharter, nil
 }
 
-func (s *projectcharterService) Delete(id uint64) error {
+func (s *projectcharterService) Delete(id uint) error {
 	projectcharter, err := s.projectcharterRepository.FindById(id)
 	if err != nil {
 		return err

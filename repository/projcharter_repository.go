@@ -12,7 +12,7 @@ type ProjectCharterRepository interface {
 	Create(p domain.ProjectCharter) domain.ProjectCharter
 	Update(p domain.ProjectCharter) domain.ProjectCharter
 	Delete(p domain.ProjectCharter)
-	FindById(id uint64) (domain.ProjectCharter, error)
+	FindById(id uint) (domain.ProjectCharter, error)
 }
 
 type ProjectCharterConnection struct {
@@ -40,10 +40,10 @@ func (c *ProjectCharterConnection) Update(p domain.ProjectCharter) domain.Projec
 }
 
 func (c *ProjectCharterConnection) Delete(p domain.ProjectCharter) {
-	c.connection.Save(&p)
+	c.connection.Delete(&p)
 }
 
-func (c *ProjectCharterConnection) FindById(id uint64) (domain.ProjectCharter, error) {
+func (c *ProjectCharterConnection) FindById(id uint) (domain.ProjectCharter, error) {
 	var projectcharter domain.ProjectCharter
 	c.connection.Find(&projectcharter, "id = ?", id)
 	if projectcharter.ID == 0 {
