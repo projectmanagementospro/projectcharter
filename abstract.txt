@@ -1,0 +1,23 @@
+Database
+    postgre pgAdmin, AutoMigrate secara otomatis tiap tabel/struct yang ada
+
+Repository Layer
+    menampung struct dan fungsi CRUD yang terhubung langsung ke db
+
+Service Layer
+    menampung struct dan fungsi CRUD yang terhubung ke repository
+    fungsi crud dilakukan menurut struct request
+
+Controller Layer
+    menampung struct dan fungsi CRUD yang terhubung ke service
+    hasil crud ditampilkan menurut struct response
+
+Injector
+    function dari google wire untuk auto generate code dependency injection
+    semua layer diatas secara otomatis dimasukkan ke dalam suatu function yang dapat menghubungkan mereka semua
+
+Routes
+    berisi semua route path untuk menjalankan fungsi crud
+
+Main
+    mengaktifkan server api untuk terkoneksi ke route
