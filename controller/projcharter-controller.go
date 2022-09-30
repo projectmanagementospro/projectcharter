@@ -63,16 +63,18 @@ func (c *projectcharterController) FindById(context *gin.Context) {
 func (c *projectcharterController) Insert(context *gin.Context) {
 	var u web.ProjectCharterRequest
 	err := context.BindJSON(&u)
-	ok := helper.ValidationError(context, err)
+	ok := helper.InternalServerError(context, err)
 	if ok {
 		return
 	}
 	u.User_id = 1
 	pcharter, err := c.projectcharterService.Create(u)
+	println("ada")
 	ok = helper.InternalServerError(context, err)
 	if ok {
 		return
 	}
+	println("tidak ada")
 	webResponse := web.WebResponse{
 		Code:   http.StatusOK,
 		Status: "Success",

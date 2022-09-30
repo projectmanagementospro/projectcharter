@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	"projectcharter/models/domain"
 	"projectcharter/models/web"
 	"projectcharter/repository"
@@ -30,12 +31,19 @@ func (s *projectcharterService) All() []domain.ProjectCharter {
 
 func (s *projectcharterService) Create(request web.ProjectCharterRequest) (domain.ProjectCharter, error) {
 	projectcharter := domain.ProjectCharter{}
-	err := smapping.FillStruct(&projectcharter, smapping.MapFields(&request))
 
+	//time.Date(request.StartDate.Year(), request.StartDate.Month(), request.StartDate.Day(), 0, 0, 0, 0, time.Local)
+	//projectcharter.StartDate = utils.ConvertDate(request.StartDate)
+	//projectcharter.EndDate = utils.ConvertDate(request.EndDate)
+	//request.StartDate = nil
+	//request.EndDate = nil
+
+	err := smapping.FillStruct(&projectcharter, smapping.MapFields(&request))
 	if err != nil {
+
 		return projectcharter, err
 	}
-
+	fmt.Println(projectcharter)
 	// _, err = s.projectcharterRepository.IsDuplicateEmail(request.Email)
 	// if err != nil {
 	// 	return projectcharter, err
