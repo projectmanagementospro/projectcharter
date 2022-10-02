@@ -35,7 +35,7 @@ func (c *ProjectCharterConnection) Create(p domain.ProjectCharter) domain.Projec
 }
 
 func (c *ProjectCharterConnection) Update(p domain.ProjectCharter) domain.ProjectCharter {
-	c.connection.Save(&p)
+	c.connection.Omit("created_at").Save(&p)
 	return p
 }
 
