@@ -11,9 +11,9 @@ import (
 
 type ProjectCharterService interface {
 	All() []domain.ProjectCharter
-	Create(b web.ProjectCharterRequest) (domain.ProjectCharter, error)
+	Create(request web.ProjectCharterRequest) (domain.ProjectCharter, error)
 	FindById(id uint) (domain.ProjectCharter, error)
-	Update(b web.ProjectCharterUpdateRequest) (domain.ProjectCharter, error)
+	Update(request web.ProjectCharterUpdateRequest) (domain.ProjectCharter, error)
 	Delete(id uint) error
 }
 
@@ -25,11 +25,11 @@ func NewProjectCharterService(projectcharterRepository repository.ProjectCharter
 	return &projectcharterService{projectcharterRepository: projectcharterRepository}
 }
 
-func (s *projectcharterService) All() []domain.ProjectCharter {
-	return s.projectcharterRepository.All()
+func (projectcharterservice *projectcharterService) All() []domain.ProjectCharter {
+	return projectcharterservice.projectcharterRepository.All()
 }
 
-func (s *projectcharterService) Create(request web.ProjectCharterRequest) (domain.ProjectCharter, error) {
+func (projectcharterservice *projectcharterService) Create(request web.ProjectCharterRequest) (domain.ProjectCharter, error) {
 	projectcharter := domain.ProjectCharter{}
 
 	//time.Date(request.StartDate.Year(), request.StartDate.Month(), request.StartDate.Day(), 0, 0, 0, 0, time.Local)
@@ -44,41 +44,41 @@ func (s *projectcharterService) Create(request web.ProjectCharterRequest) (domai
 		return projectcharter, err
 	}
 	fmt.Println(projectcharter)
-	// _, err = s.projectcharterRepository.IsDuplicateEmail(request.Email)
+	// _, err = projectcharterservice.projectcharterRepository.IsDuplicateEmail(request.Email)
 	// if err != nil {
 	// 	return projectcharter, err
 	// }
-	return s.projectcharterRepository.Create(projectcharter), nil
+	return projectcharterservice.projectcharterRepository.Create(projectcharter), nil
 }
 
-func (s *projectcharterService) Update(b web.ProjectCharterUpdateRequest) (domain.ProjectCharter, error) {
+func (projectcharterservice *projectcharterService) Update(request web.ProjectCharterUpdateRequest) (domain.ProjectCharter, error) {
 	projectcharter := domain.ProjectCharter{}
-	res, err := s.projectcharterRepository.FindById(b.ID)
+	res, err := projectcharterservice.projectcharterRepository.FindById(request.ID)
 	if err != nil {
 		return projectcharter, err
 	}
-	err = smapping.FillStruct(&projectcharter, smapping.MapFields(&b))
+	err = smapping.FillStruct(&projectcharter, smapping.MapFields(&request))
 	if err != nil {
 		return projectcharter, err
 	}
 	//projectcharter.ID = res.ID
 	projectcharter.User_id = res.User_id
-	return s.projectcharterRepository.Update(projectcharter), nil
+	return projectcharterservice.projectcharterRepository.Update(projectcharter), nil
 }
 
-func (s *projectcharterService) FindById(id uint) (domain.ProjectCharter, error) {
-	projectcharter, err := s.projectcharterRepository.FindById(id)
+func (projectcharterservice *projectcharterService) FindById(id uint) (domain.ProjectCharter, error) {
+	projectcharter, err := projectcharterservice.projectcharterRepository.FindById(id)
 	if err != nil {
 		return projectcharter, err
 	}
 	return projectcharter, nil
 }
 
-func (s *projectcharterService) Delete(id uint) error {
-	projectcharter, err := s.projectcharterRepository.FindById(id)
+func (projectcharterservice *projectcharterService) Delete(id uint) error {
+	projectcharter, err := projectcharterservice.projectcharterRepository.FindById(id)
 	if err != nil {
 		return err
 	}
-	s.projectcharterRepository.Delete(projectcharter)
+	projectcharterservice.projectcharterRepository.Delete(projectcharter)
 	return nil
 }
