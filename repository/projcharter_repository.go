@@ -9,14 +9,14 @@ import (
 
 type ProjectCharterRepository interface {
 	All() []domain.ProjectCharter
-	Create(projectcharter domain.ProjectCharter) domain.ProjectCharter
-	Update(projectcharter domain.ProjectCharter) domain.ProjectCharter
-	Delete(projectcharter domain.ProjectCharter)
+	Create(pCharter domain.ProjectCharter) domain.ProjectCharter
+	Update(pCharter domain.ProjectCharter) domain.ProjectCharter
+	Delete(pCharter domain.ProjectCharter)
 	FindById(id uint) (domain.ProjectCharter, error)
 }
 
 type ProjectCharterConnection struct {
-	//Connetion to database
+	//Connection to database
 	connection *gorm.DB
 }
 
@@ -30,25 +30,25 @@ func (conn *ProjectCharterConnection) All() []domain.ProjectCharter {
 	return projectcharters
 }
 
-func (conn *ProjectCharterConnection) Create(projectcharter domain.ProjectCharter) domain.ProjectCharter {
-	conn.connection.Save(&projectcharter)
-	return projectcharter
+func (conn *ProjectCharterConnection) Create(pCharter domain.ProjectCharter) domain.ProjectCharter {
+	conn.connection.Save(&pCharter)
+	return pCharter
 }
 
-func (conn *ProjectCharterConnection) Update(projectcharter domain.ProjectCharter) domain.ProjectCharter {
-	conn.connection.Omit("created_at").Save(&projectcharter)
-	return projectcharter
+func (conn *ProjectCharterConnection) Update(pCharter domain.ProjectCharter) domain.ProjectCharter {
+	conn.connection.Omit("created_at").Save(&pCharter)
+	return pCharter
 }
 
-func (conn *ProjectCharterConnection) Delete(projectcharter domain.ProjectCharter) {
-	conn.connection.Delete(&projectcharter)
+func (conn *ProjectCharterConnection) Delete(pCharter domain.ProjectCharter) {
+	conn.connection.Delete(&pCharter)
 }
 
 func (conn *ProjectCharterConnection) FindById(id uint) (domain.ProjectCharter, error) {
-	var projectcharter domain.ProjectCharter
-	conn.connection.Find(&projectcharter, "id = ?", id)
-	if projectcharter.ID == 0 {
-		return projectcharter, errors.New("id not found")
+	var pCharter domain.ProjectCharter
+	conn.connection.Find(&pCharter, "id = ?", id)
+	if pCharter.ID == 0 {
+		return pCharter, errors.New("id not found")
 	}
-	return projectcharter, nil
+	return pCharter, nil
 }

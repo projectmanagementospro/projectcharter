@@ -11,7 +11,7 @@ import (
 
 func NewProjectCharterRoutes(db *gorm.DB, route *gin.Engine) {
 	pcharterController := injector.InitProjectCharter(db)
-	pcharterRoute := route.Group("/api/v1/pcharter")
+	pcharterRoute := route.Group("/api/v1/projectcharter")
 	pcharterRoute.Use(middleware.ErrorHandler())
 	pcharterRoute.Use(cors.Default())
 	pcharterRoute.GET("/", pcharterController.All)

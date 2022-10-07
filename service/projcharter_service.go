@@ -25,60 +25,60 @@ func NewProjectCharterService(projectcharterRepository repository.ProjectCharter
 	return &projectcharterService{projectcharterRepository: projectcharterRepository}
 }
 
-func (projectcharterservice *projectcharterService) All() []domain.ProjectCharter {
-	return projectcharterservice.projectcharterRepository.All()
+func (pCharterService *projectcharterService) All() []domain.ProjectCharter {
+	return pCharterService.projectcharterRepository.All()
 }
 
-func (projectcharterservice *projectcharterService) Create(request web.ProjectCharterRequest) (domain.ProjectCharter, error) {
-	projectcharter := domain.ProjectCharter{}
+func (pCharterService *projectcharterService) Create(request web.ProjectCharterRequest) (domain.ProjectCharter, error) {
+	pCharter := domain.ProjectCharter{}
 
 	//time.Date(request.StartDate.Year(), request.StartDate.Month(), request.StartDate.Day(), 0, 0, 0, 0, time.Local)
-	//projectcharter.StartDate = utils.ConvertDate(request.StartDate)
-	//projectcharter.EndDate = utils.ConvertDate(request.EndDate)
+	//pCharter.StartDate = utils.ConvertDate(request.StartDate)
+	//pCharter.EndDate = utils.ConvertDate(request.EndDate)
 	//request.StartDate = nil
 	//request.EndDate = nil
 
-	err := smapping.FillStruct(&projectcharter, smapping.MapFields(&request))
+	err := smapping.FillStruct(&pCharter, smapping.MapFields(&request))
 	if err != nil {
 
-		return projectcharter, err
+		return pCharter, err
 	}
-	fmt.Println(projectcharter)
-	// _, err = projectcharterservice.projectcharterRepository.IsDuplicateEmail(request.Email)
+	fmt.Println(pCharter)
+	// _, err = pCharterService.projectcharterRepository.IsDuplicateEmail(request.Email)
 	// if err != nil {
-	// 	return projectcharter, err
+	// 	return pCharter, err
 	// }
-	return projectcharterservice.projectcharterRepository.Create(projectcharter), nil
+	return pCharterService.projectcharterRepository.Create(pCharter), nil
 }
 
-func (projectcharterservice *projectcharterService) Update(request web.ProjectCharterUpdateRequest) (domain.ProjectCharter, error) {
-	projectcharter := domain.ProjectCharter{}
-	res, err := projectcharterservice.projectcharterRepository.FindById(request.ID)
+func (pCharterService *projectcharterService) Update(request web.ProjectCharterUpdateRequest) (domain.ProjectCharter, error) {
+	pCharter := domain.ProjectCharter{}
+	res, err := pCharterService.projectcharterRepository.FindById(request.ID)
 	if err != nil {
-		return projectcharter, err
+		return pCharter, err
 	}
-	err = smapping.FillStruct(&projectcharter, smapping.MapFields(&request))
+	err = smapping.FillStruct(&pCharter, smapping.MapFields(&request))
 	if err != nil {
-		return projectcharter, err
+		return pCharter, err
 	}
-	//projectcharter.ID = res.ID
-	projectcharter.User_id = res.User_id
-	return projectcharterservice.projectcharterRepository.Update(projectcharter), nil
+	//pCharter.ID = res.ID
+	pCharter.User_id = res.User_id
+	return pCharterService.projectcharterRepository.Update(pCharter), nil
 }
 
-func (projectcharterservice *projectcharterService) FindById(id uint) (domain.ProjectCharter, error) {
-	projectcharter, err := projectcharterservice.projectcharterRepository.FindById(id)
+func (pCharterService *projectcharterService) FindById(id uint) (domain.ProjectCharter, error) {
+	pCharter, err := pCharterService.projectcharterRepository.FindById(id)
 	if err != nil {
-		return projectcharter, err
+		return pCharter, err
 	}
-	return projectcharter, nil
+	return pCharter, nil
 }
 
-func (projectcharterservice *projectcharterService) Delete(id uint) error {
-	projectcharter, err := projectcharterservice.projectcharterRepository.FindById(id)
+func (pCharterService *projectcharterService) Delete(id uint) error {
+	pCharter, err := pCharterService.projectcharterRepository.FindById(id)
 	if err != nil {
 		return err
 	}
-	projectcharterservice.projectcharterRepository.Delete(projectcharter)
+	pCharterService.projectcharterRepository.Delete(pCharter)
 	return nil
 }

@@ -28,8 +28,8 @@ func NewProjectCharterController(projectcharterService service.ProjectCharterSer
 	}
 }
 
-func (projectchartercontroller *projectcharterController) All(context *gin.Context) {
-	pcharters := projectchartercontroller.projectcharterService.All()
+func (pCharterController *projectcharterController) All(context *gin.Context) {
+	pcharters := pCharterController.projectcharterService.All()
 	webResponse := web.WebResponse{
 		Code:   http.StatusOK,
 		Status: "Success",
@@ -39,14 +39,14 @@ func (projectchartercontroller *projectcharterController) All(context *gin.Conte
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (projectchartercontroller *projectcharterController) FindById(context *gin.Context) {
+func (pCharterController *projectcharterController) FindById(context *gin.Context) {
 	idString := context.Param("id")
 	id, err := strconv.ParseUint(idString, 10, 64)
 	ok := helper.NotFoundError(context, err)
 	if ok {
 		return
 	}
-	pcharter, err := projectchartercontroller.projectcharterService.FindById(uint(id))
+	pcharter, err := pCharterController.projectcharterService.FindById(uint(id))
 	ok = helper.NotFoundError(context, err)
 	if ok {
 		return
@@ -60,7 +60,7 @@ func (projectchartercontroller *projectcharterController) FindById(context *gin.
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (projectchartercontroller *projectcharterController) Insert(context *gin.Context) {
+func (pCharterController *projectcharterController) Insert(context *gin.Context) {
 	var request web.ProjectCharterRequest
 	err := context.BindJSON(&request)
 	ok := helper.InternalServerError(context, err)
@@ -68,7 +68,7 @@ func (projectchartercontroller *projectcharterController) Insert(context *gin.Co
 		return
 	}
 	request.User_id = 1
-	pcharter, err := projectchartercontroller.projectcharterService.Create(request)
+	pcharter, err := pCharterController.projectcharterService.Create(request)
 	println("ada")
 	ok = helper.InternalServerError(context, err)
 	if ok {
@@ -84,7 +84,7 @@ func (projectchartercontroller *projectcharterController) Insert(context *gin.Co
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (projectchartercontroller *projectcharterController) Update(context *gin.Context) {
+func (pCharterController *projectcharterController) Update(context *gin.Context) {
 	var request web.ProjectCharterUpdateRequest
 	idString := context.Param("id")
 	id, err := strconv.ParseUint(idString, 10, 64)
@@ -98,7 +98,7 @@ func (projectchartercontroller *projectcharterController) Update(context *gin.Co
 	if ok {
 		return
 	}
-	pcharter, err := projectchartercontroller.projectcharterService.Update(request)
+	pcharter, err := pCharterController.projectcharterService.Update(request)
 	ok = helper.InternalServerError(context, err)
 	if ok {
 		return
@@ -112,14 +112,14 @@ func (projectchartercontroller *projectcharterController) Update(context *gin.Co
 	context.JSON(http.StatusOK, webResponse)
 }
 
-func (projectchartercontroller *projectcharterController) Delete(context *gin.Context) {
+func (pCharterController *projectcharterController) Delete(context *gin.Context) {
 	idString := context.Param("id")
 	id, err := strconv.ParseUint(idString, 10, 64)
 	ok := helper.NotFoundError(context, err)
 	if ok {
 		return
 	}
-	err = projectchartercontroller.projectcharterService.Delete(uint(id))
+	err = pCharterController.projectcharterService.Delete(uint(id))
 	ok = helper.NotFoundError(context, err)
 	if ok {
 		return
@@ -133,7 +133,7 @@ func (projectchartercontroller *projectcharterController) Delete(context *gin.Co
 	context.JSON(http.StatusOK, webResponse)
 }
 
-// func ProjCharterCreate(projectchartercontroller *gin.Context) {
+// func ProjCharterCreate(pCharterController *gin.Context) {
 // 	// Get data off req body
 // 	var body struct {
 // 		Name        string `json:"name"`
@@ -143,7 +143,7 @@ func (projectchartercontroller *projectcharterController) Delete(context *gin.Co
 // 		DeletedBy   string `json:"deleted_by"`
 // 	}
 
-// 	projectchartercontroller.BindJSON(&body)
+// 	pCharterController.BindJSON(&body)
 
 // 	// Create a post
 // 	projectcharter := domain.ProjectCharter{Name: body.Name, Description: body.Description, CreatedBy: body.CreatedBy, UpdatedBy: body.UpdatedBy, DeletedBy: body.DeletedBy}
@@ -151,44 +151,44 @@ func (projectchartercontroller *projectcharterController) Delete(context *gin.Co
 // 	result := config.NewDB().Create(&projectcharter)
 
 // 	if result.Error != nil {
-// 		projectchartercontroller.Status(400)
+// 		pCharterController.Status(400)
 // 		return
 // 	}
 
 // 	// Return it
-// 	projectchartercontroller.JSON(200, gin.H{
+// 	pCharterController.JSON(200, gin.H{
 // 		"projectcharter": projectcharter,
 // 	})
 // }
 
-// func ProjCharterIndex(projectchartercontroller *gin.Context) {
+// func ProjCharterIndex(pCharterController *gin.Context) {
 // 	// Get the pcharter
 // 	var pcharter []domain.ProjectCharter
 // 	config.NewDB().Find(&pcharter)
 
 // 	// Respond with them
-// 	projectchartercontroller.JSON(200, gin.H{
+// 	pCharterController.JSON(200, gin.H{
 // 		"pcharter": pcharter,
 // 	})
 // }
 
-// func ProjCharterShow(projectchartercontroller *gin.Context) {
+// func ProjCharterShow(pCharterController *gin.Context) {
 // 	// Get id off url
-// 	id := projectchartercontroller.Param("id")
+// 	id := pCharterController.Param("id")
 
 // 	// Get the posts
 // 	var projectcharter domain.ProjectCharter
 // 	config.NewDB().First(&projectcharter, id)
 
 // 	// Respond with them
-// 	projectchartercontroller.JSON(200, gin.H{
+// 	pCharterController.JSON(200, gin.H{
 // 		"pcharter": projectcharter,
 // 	})
 // }
 
-// func ProjCharterUpdate(projectchartercontroller *gin.Context) {
+// func ProjCharterUpdate(pCharterController *gin.Context) {
 // 	// Get the id off the url
-// 	id := projectchartercontroller.Param("id")
+// 	id := pCharterController.Param("id")
 
 // 	// Get the data off req body
 // 	var body struct {
@@ -199,7 +199,7 @@ func (projectchartercontroller *projectcharterController) Delete(context *gin.Co
 // 		DeletedBy   string `json:"deleted_by"`
 // 	}
 
-// 	projectchartercontroller.Bind(&body)
+// 	pCharterController.Bind(&body)
 
 // 	// Find the post were updating
 // 	var projectcharter domain.ProjectCharter
@@ -215,18 +215,18 @@ func (projectchartercontroller *projectcharterController) Delete(context *gin.Co
 // 	})
 
 // 	// Respond with it
-// 	projectchartercontroller.JSON(200, gin.H{
+// 	pCharterController.JSON(200, gin.H{
 // 		"pcharter": projectcharter,
 // 	})
 // }
 
-// func ProjCharterDelete(projectchartercontroller *gin.Context) {
+// func ProjCharterDelete(pCharterController *gin.Context) {
 // 	// Get the id off the url
-// 	id := projectchartercontroller.Param("id")
+// 	id := pCharterController.Param("id")
 
 // 	// Delete the pcharter
 // 	config.NewDB().Delete(&domain.ProjectCharter{}, id)
 
 // 	// Respond
-// 	projectchartercontroller.Status(200)
+// 	pCharterController.Status(200)
 // }
