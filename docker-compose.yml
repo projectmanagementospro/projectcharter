@@ -1,0 +1,45 @@
+version: "3"
+services:
+  project-charter:
+    container_name: Project-Charter
+    tty: true
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /project-charter
+    volumes:
+      - .:/project-charter
+    ports:
+      - 8082:8080
+    # network_mode: host
+    networks:
+      my-net:
+        ipv4_address: 172.28.1.2
+    # command: ./start.sh
+    depends_on:
+      - database
+  database:
+    image: postgres
+    restart: always
+    env_file:
+      - .env
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - "5434:5432"
+    # volumes:
+    #   - data:/var/lib/postgresql/data
+    networks:
+      my-net:
+        ipv4_address: 172.28.1.3
+
+
+networks:
+ my-net:
+  ipam:
+   driver: default
+   config:
+    - subnet: 172.28.0.0/16
+
+# volumes:
+#   data:

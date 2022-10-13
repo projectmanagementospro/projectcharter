@@ -1,8 +1,6 @@
 package config
 
 import (
-	"fmt"
-	"os"
 	"projectcharter/helper"
 	"projectcharter/models/domain"
 
@@ -15,13 +13,14 @@ func NewDB() *gorm.DB {
 	err := godotenv.Load()
 	helper.PanicIfError(err)
 
-	dbUser := os.Getenv("DB_USER")
-	dbPass := os.Getenv("DB_PASS")
-	dbHost := os.Getenv("DB_HOST")
-	dbPort := os.Getenv("DB_PORT")
-	dbName := os.Getenv("DB_NAME")
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai", dbHost, dbUser, dbPass, dbName, dbPort)
-	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	// dbUser := os.Getenv("DB_USER")
+	// dbPass := os.Getenv("DB_PASS")
+	// dbHost := os.Getenv("DB_HOST")
+	// dbPort := os.Getenv("DB_PORT")
+	// dbName := os.Getenv("DB_NAME")
+	// dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Shanghai", dbHost, dbUser, dbPass, dbName, dbPort)
+	dbURL := "postgres://root:root@172.28.1.3:5432/projectcharter?sslmode=disable"
+	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
 	helper.PanicIfError(err)
 	db.AutoMigrate(&domain.ProjectCharter{})
 	return db

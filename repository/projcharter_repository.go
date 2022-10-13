@@ -52,3 +52,5 @@ func (conn *ProjectCharterConnection) FindById(id uint) (domain.ProjectCharter, 
 	}
 	return pCharter, nil
 }
+
+// never gonna give you up
