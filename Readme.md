@@ -28,7 +28,7 @@ wire gen dailyreport
 
 ## Run updated code automatically
 ``` bash
-CompileDaemon -command="./pcharter"
+CompileDaemon -command="./projectcharter"
 ```
 
 

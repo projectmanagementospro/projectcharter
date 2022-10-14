@@ -17,36 +17,36 @@ type ProjectCharterRepository interface {
 
 type ProjectCharterConnection struct {
 	//Connection to database
-	connection *gorm.DB
+	dbConnect *gorm.DB
 }
 
 func NewProjectCharterRepository(db *gorm.DB) ProjectCharterRepository {
-	return &ProjectCharterConnection{connection: db} //
+	return &ProjectCharterConnection{dbConnect: db} //
 }
 
 func (conn *ProjectCharterConnection) All() []domain.ProjectCharter {
 	var projectcharters []domain.ProjectCharter
-	conn.connection.Find(&projectcharters)
+	conn.dbConnect.Find(&projectcharters)
 	return projectcharters
 }
 
 func (conn *ProjectCharterConnection) Create(pCharter domain.ProjectCharter) domain.ProjectCharter {
-	conn.connection.Save(&pCharter)
+	conn.dbConnect.Save(&pCharter)
 	return pCharter
 }
 
 func (conn *ProjectCharterConnection) Update(pCharter domain.ProjectCharter) domain.ProjectCharter {
-	conn.connection.Omit("created_at").Save(&pCharter)
+	conn.dbConnect.Omit("created_at").Save(&pCharter)
 	return pCharter
 }
 
 func (conn *ProjectCharterConnection) Delete(pCharter domain.ProjectCharter) {
-	conn.connection.Delete(&pCharter)
+	conn.dbConnect.Delete(&pCharter)
 }
 
 func (conn *ProjectCharterConnection) FindById(id uint) (domain.ProjectCharter, error) {
 	var pCharter domain.ProjectCharter
-	conn.connection.Find(&pCharter, "id = ?", id)
+	conn.dbConnect.Find(&pCharter, "id = ?", id)
 	if pCharter.ID == 0 {
 		return pCharter, errors.New("id not found")
 	}
